@@ -1,0 +1,87 @@
+\documentclass[11pt,a4paper,sans]{moderncv} % Letra base más grande (11pt)
+
+% --- CONFIGURACIÓN DE COLORES Y ESTILO ---
+\moderncvstyle{classic} 
+\moderncvcolor{blue} 
+
+\usepackage[utf8]{inputenc}
+\usepackage[scale=0.8]{geometry}
+\usepackage{xcolor}
+\usepackage{setspace} % Para controlar el interlineado
+\setstretch{1.2}      % Aumenta el espacio entre líneas un 20%
+
+% Colores personalizados
+\definecolor{color_nombre}{RGB}{0, 51, 102}
+\definecolor{color_titulos}{RGB}{0, 102, 204}
+
+% Estilo de Nombre y Títulos (Más grandes)
+\renewcommand*{\namestyle}[2]{{\color{color_nombre}\Huge\bfseries#1}\hskip 1pt{\color{color_nombre}\Huge\bfseries#2}}
+\renewcommand*{\sectionstyle}[1]{{\color{color_titulos}\mainfont\bfseries\Large\MakeUppercase{#1}}}
+
+% --- FOTO CIRCULAR ---
+\usepackage{tikz}
+\newcommand*{\roundphoto}[2][75pt]{% Agrandamos un poco el círculo de la foto
+  \begin{tikzpicture}
+    \draw[color_titulos, line width=2pt] (0.5*#1,0.5*#1) circle (0.5*#1);
+    \clip (0.5*#1,0.5*#1) circle (0.5*#1);
+    \node at (0.5*#1,0.5*#1) {\includegraphics[width=#1]{#2}};
+  \end{tikzpicture}
+}
+
+\makeatletter
+\patchcmd{\makecvtitle}{\includegraphics[width=\@photowidth]{\@photo}}{\roundphoto[\@photowidth]{\@photo}}{}{}
+\makeatother
+% ---------------------
+
+% Datos Personales
+\name{M. del Rocío}{Alarcón}
+\address{San Rafael 250 - Las Heras}{Mendoza}
+\phone[mobile]{261-4602671}
+\email{alarcon.rocio.1h1@gmail.com}
+\extrainfo{17 de septiembre del 2001}
+\photo[75pt][0pt]{foto.jpg} 
+
+\begin{document}
+\makecvtitle
+\vspace{0.5cm} % Espacio extra después del encabezado
+
+\section{Perfil Profesional}
+\cvitem{}{\large Estudiante avanzado de \textbf{Ingeniería Industrial (4to año)} con sólida capacidad analítica y enfoque en la mejora de procesos. Perfil bilingüe (Inglés y Portugués) con experiencia en gestión administrativa. Me destaco por mi proactividad y resolución de problemas.}
+\vspace{0.3cm}
+
+\section{Experiencia}
+\cventry{2025--Pres.}{Administración y ventas}{Valentine Cocina}{}{}{
+\begin{itemize}
+    \item Gestión de ventas y atención personalizada al público.
+    \item Tareas administrativas y control de stock.
+    \item Resolución de consultas y gestión de pedidos.
+\end{itemize}}
+\vspace{0.2cm} % Espacio entre trabajos
+
+\cventry{2022}{Producción y ventas}{SuperMatize}{}{}{
+\begin{itemize}
+    \item Elaboración y manufactura de productos.
+    \item Atención al público y cierre de caja.
+    \item Optimización de tareas manuales en el proceso productivo.
+\end{itemize}}
+\vspace{0.2cm}
+
+\cventry{Eventual}{Staff de eventos}{Independiente}{}{}{
+\begin{itemize}
+    \item Adaptabilidad a ambientes de alta exigencia y trabajo bajo presión.
+    \item Manejo de relaciones interpersonales y servicio al cliente.
+\end{itemize}}
+\vspace{0.3cm}
+
+\section{Formación Académica}
+\cventry{2020--Pres.}{Ingeniería Industrial}{Univ. Nacional de Cuyo}{Mendoza}{}{4to año en curso.}
+\vspace{0.1cm}
+\cventry{2015--2019}{Bachiller en Ciencias Sociales}{Escuela del Magisterio}{Mendoza}{}{}
+\vspace{0.3cm}
+
+\section{Idiomas y Cursos}
+\cvitem{Inglés}{\textbf{Nivel B2} (F. Filo y Letras, UNCuyo) y B1 (Colegio de Lenguas).}
+\cvitem{Portugués}{\textbf{Nivel B2} (F. Filo y Letras, UNCuyo).}
+\cvitem{Excel}{\textbf{Nivel Intermedio} (Facultad de Ingeniería, UNCuyo).}
+
+\end{document}
