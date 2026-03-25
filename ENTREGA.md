@@ -1,4 +1,6 @@
-# Entrega
+# Entrega 
+<img src="Logo de equipo Los Técnicos.png" width="400"/>
+
 | Apellido(s) | Nombre(s) | Correo Electrónico | WhatsApp | Link Github|
 |:-----------:|:---------:|:------------------:|:--------:|:----------:|
 | Aguilar | Maite Julieta | aguilar.maite.j@gmail.com | 2616114141 |https://github.com/aguilarmaite/Modulo_1|
