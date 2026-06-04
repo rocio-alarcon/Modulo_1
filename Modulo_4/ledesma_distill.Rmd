@@ -1,0 +1,208 @@
+---
+title: "Restructuración Industrial y Sostenibilidad en el Sector Papelero Argentino: El Caso Ledesma"
+description: |
+  Análisis estratégico de la producción de papel a partir de bagazo de caña de azúcar
+  y su transición hacia envases biodegradables en el complejo agroindustrial Ledesma.
+date: "2025-06-01"
+author:
+  - name: Franca Bielsa
+    affiliation: Universidad Nacional de Cuyo
+  - name: Rocío Alarcón
+    affiliation: Universidad Nacional de Cuyo
+  - name: Ignacio Coronado
+    affiliation: Universidad Nacional de Cuyo
+  - name: Maite Aguilar
+    affiliation: Universidad Nacional de Cuyo
+  - name: Camila Sotelo
+    affiliation: Universidad Nacional de Cuyo
+output:
+  distill::distill_article:
+    self_contained: true
+    toc: true
+    toc_depth: 3
+bibliography: referencias.bib
+csl: apa.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(scales)
+```
+
+## Introducción
+
+La industria de la celulosa y el papel en Argentina, representada por el complejo
+agroindustrial Ledesma, cuenta con más de 115 años de trayectoria [@avellaneda2023].
+Su modelo se basa en la integración vertical, utilizando el bagazo de la caña de
+azúcar como materia prima renovable, lo que posiciona sus productos como alternativas
+sostenibles frente a la celulosa de madera tradicional [@lacabana2019].
+
+A diferencia de los modelos industriales convencionales, Ledesma aprovecha el bagazo
+—subproducto del proceso azucarero— para producir celulosa y papel, reduciendo
+significativamente la presión sobre los bosques nativos y disminuyendo la huella de
+carbono del proceso productivo. Esta integración vertical constituye una ventaja
+competitiva estructural que ha permitido a la empresa sostener su posición en el
+mercado durante más de un siglo [@avellaneda2023].
+
+## Transformación Digital y Diversificación Productiva
+
+En respuesta a la caída de la demanda de papel para impresión —consecuencia directa
+de la digitalización— la empresa ha iniciado procesos de transformación digital y
+robotización, además de diversificar su cartera hacia productos de papel NAT:
+100% fibra de caña y 0% químicos blanqueadores [@salatin2024].
+
+La línea Ledesma NAT Tissue representa uno de los ejes centrales de esta estrategia
+de diversificación relacionada. Al combinar las capacidades instaladas en la unidad
+papelera con una propuesta de valor centrada en la sostenibilidad, la empresa busca
+capturar segmentos de consumidores con mayor conciencia ambiental, tanto en el
+mercado doméstico como en mercados de exportación [@salatin2024].
+
+## Análisis Estratégico: Hacia el Packaging Compostable
+
+Los diagnósticos actuales sugieren una transición hacia el packaging compostable y
+productos de papel tissue para mitigar el impacto ambiental del plástico de un solo
+uso y capturar mercados internacionales que valoran la economía circular
+[@bellomo2025; @guimera2022].
+
+La viabilidad de exportar resmas de hoja A4 de biopapel a mercados como Perú
+evidencia que la propuesta de valor de Ledesma —trazabilidad agroindustrial,
+huella de carbono reducida y certificación de origen— constituye una ventaja
+competitiva sostenible [@guimera2022]. Este caso permite identificar los
+requisitos arancelarios, logísticos y de certificación que condicionan el acceso
+a mercados con regulaciones ambientales más exigentes.
+
+## Datos de Producción
+
+```{r datos-produccion}
+# Datos extraídos de Cuadro 1 (Guimera Gauna, 2022)
+produccion_data <- data.frame(
+  Producto   = c("Papel embalaje", "Cuadernos y repuestos",
+                 "Papel impresión", "Artículos librería"),
+  anio_2020  = c(89815, 12235, 54011,  9931),
+  anio_2021  = c(82248,  7380, 58448,  7736),
+  anio_2022  = c(101617, 9985, 87043, 10788)
+)
+```
+
+### Tabla 1. Producción por línea de producto (2020–2022)
+
+```{r tabla-produccion}
+produccion_data |>
+  kable(
+    col.names   = c("Producto", "2020", "2021", "2022"),
+    caption     = "Toneladas producidas por Ledesma según línea de producto (2020–2022)",
+    format.args = list(big.mark = ".", decimal.mark = ","),
+    align       = c("l", "r", "r", "r")
+  ) |>
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = FALSE,
+    position          = "center"
+  ) |>
+  footnote(
+    general           = "Fuente: Elaboración propia basada en Guimera Gauna (2022).",
+    general_title     = "",
+    footnote_as_chunk = TRUE
+  )
+```
+
+### Figura 1. Evolución de la producción por línea de producto
+
+```{r figura-lineas, fig.cap="Evolución de la producción en toneladas por línea de producto (2020–2022). Fuente: Elaboración propia basada en Guimera Gauna (2022).", fig.width=8, fig.height=5}
+# Transformación a formato largo para ggplot2
+data_long <- produccion_data |>
+  pivot_longer(
+    cols      = starts_with("anio_"),
+    names_to  = "Anio",
+    values_to = "Toneladas"
+  ) |>
+  mutate(Anio = gsub("anio_", "", Anio))
+
+ggplot(data_long, aes(x = Anio, y = Toneladas, group = Producto, color = Producto)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3.5) +
+  scale_y_continuous(
+    labels = comma_format(big.mark = ".", decimal.mark = ",")
+  ) +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    x     = "Año",
+    y     = "Toneladas producidas",
+    color = "Línea de producto"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position  = "bottom",
+    panel.grid.minor = element_blank(),
+    plot.caption     = element_text(hjust = 0, size = 9, color = "gray40")
+  )
+```
+
+### Figura 2. Composición anual de la producción total
+
+```{r figura-barras, fig.cap="Composición anual de la producción total en toneladas (2020–2022). Fuente: Elaboración propia basada en Guimera Gauna (2022).", fig.width=8, fig.height=5}
+ggplot(data_long, aes(x = Anio, y = Toneladas, fill = Producto)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.6) +
+  scale_y_continuous(
+    labels = comma_format(big.mark = ".", decimal.mark = ",")
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    x    = "Año",
+    y    = "Toneladas producidas",
+    fill = "Línea de producto"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position  = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+### Figura 3. Participación porcentual por línea de producto
+
+```{r figura-participacion, fig.cap="Participación porcentual de cada línea de producto en la producción total anual (2020–2022). Fuente: Elaboración propia basada en Guimera Gauna (2022).", fig.width=8, fig.height=5}
+data_long |>
+  group_by(Anio) |>
+  mutate(Porcentaje = Toneladas / sum(Toneladas) * 100) |>
+  ggplot(aes(x = Anio, y = Porcentaje, fill = Producto)) +
+  geom_bar(stat = "identity", position = "fill", width = 0.6) +
+  scale_y_continuous(labels = percent_format()) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    x    = "Año",
+    y    = "Participación (%)",
+    fill = "Línea de producto"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position  = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+## Conclusiones
+
+El caso Ledesma ilustra cómo una empresa agroindustrial puede reconfigurar su modelo
+de negocio frente a shocks de demanda estructurales —como la digitalización— sin
+abandonar su núcleo de competencias. La integración vertical basada en bagazo de
+caña de azúcar no solo reduce costos de materia prima, sino que habilita una narrativa
+de sostenibilidad coherente y verificable, relevante tanto para consumidores finales
+como para compradores institucionales y reguladores [@bellomo2025].
+
+La transición hacia packaging compostable y papel tissue premium posiciona a Ledesma
+en segmentos de mayor valor agregado, con menor exposición a la sustitución digital
+y mayor alineación con las tendencias de economía circular que dominan la agenda
+regulatoria global [@salatin2024; @lacabana2019].
+
+## Referencias
